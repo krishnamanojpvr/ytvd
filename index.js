@@ -15,10 +15,7 @@ app.get("/download", async (req, res) => {
 	if (!req.query.url) {
 		return res.status(400).send('URL query parameter is required');
 	}
-	const v_id = req.query.url.split('v=')[1];
-	if (!v_id) {
-		return res.status(400).send('Invalid URL');
-	}
+	console.log(req.query.url)
     const info = await ytdl.getInfo(req.query.url);	
 	console.log(info)
 	const filteredFormats = info.formats.filter(format => {
@@ -32,7 +29,7 @@ app.get("/download", async (req, res) => {
 	console.log(highestResolutionFormat)
 
 	 // Set the appropriate headers for the file download
-	 res.setHeader('Content-disposition', 'attachment; filename=' + v_id + '.mp4');
+	 res.setHeader('Content-disposition', 'attachment; filename=video.mp4');
 	 res.setHeader('Content-type', 'video/mp4');
 	 console.log("headers are set");
  
