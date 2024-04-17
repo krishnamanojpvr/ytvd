@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const ytdl = require("ytdl-core");
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 // OUR ROUTES WILL GO HERE
 app.get("/", (req, res) => {
 	return res.render("index");
