@@ -17,16 +17,16 @@ app.get("/download", async (req, res) => {
 	}
 	console.log(req.query.url)
     const info = await ytdl.getInfo(req.query.url);	
-	console.log(info)
+	// console.log(info)
 	const filteredFormats = info.formats.filter(format => {
         return format.hasAudio && format.hasVideo && format.container === 'mp4';
     });
-	console.log(filteredFormats)
+	// console.log(filteredFormats)
 	// Find the format with the highest resolution
     const highestResolutionFormat = filteredFormats.reduce((prev, current) => {
         return (parseInt(prev.height) > parseInt(current.height)) ? prev : current;
     });
-	console.log(highestResolutionFormat)
+	// console.log(highestResolutionFormat)
 
 	 // Set the appropriate headers for the file download
 	 res.setHeader('Content-disposition', 'attachment; filename=video.mp4');
