@@ -27,18 +27,7 @@ app.get("/download", async (req, res) => {
 		info: [highestResolutionFormat],
         // }),
 	});
-// // 2
-// 	// res.redirect(highestResolutionFormat.url);
 
-// 	// 3
-// 	 // Set the appropriate headers for the file download
-// 	 res.setHeader('Content-disposition', 'attachment; filename=' + v_id + '.mp4');
-// 	 res.setHeader('Content-type', 'video/mp4');
- 
-// 	 // Pipe the video stream to the response
-// 	 ytdl(req.query.url, {
-// 		 format: highestResolutionFormat
-// 	 }).pipe(res);
 });
 app.listen(3000, () => {
 	console.log("Server is running on http://localhost:3000");
