@@ -5,23 +5,35 @@ const ytdl = require("ytdl-core");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
-
+// OUR ROUTES WILL GO HERE
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", { url: null }); // Initialize url as null
 });
 
 app.get("/download", async (req, res) => {
-    const videoURL = req.query.url;
-    const info = await ytdl.getInfo(videoURL);
-    const format = ytdl.chooseFormat(info.formats, { quality: 'highest' });
+  const v_id = req.query.url.split("v=")[1];
+  const info = await ytdl.getInfo(req.query.url);
+  const filteredFormats = info.formats.filter((format) => {
+    return format.hasAudio && format.hasVideo && format.container === "mp4";
+  });
 
-    res.header('Content-Disposition', `attachment; filename="${info.videoDetails.title}.mp4"`);
-    ytdl(videoURL, { format: format })
-        .pipe(res);
+  // Find the format with the highest resolution
+  const highestResolutionFormat = filteredFormats.reduce((prev, current) => {
+    return parseInt(prev.height) > parseInt(current.height) ? prev : current;
+  });
+
+  //   return res.render("download", {
+  //     url: "https://www.youtube.com/embed/" + v_id,
+  //     info: [highestResolutionFormat],
+  //   });
+  // Redirect to the URL of the highest quality video
+
+  //   res.redirect(highestResolutionFormat.url);
+
+  res.render("index", {
+    url: highestResolutionFormat.url,
+  });
 });
-
 app.listen(3000, () => {
-    console.log("Server is running on http://localhost:3000");
+  console.log("Server is running on http://localhost:3000");
 });
