@@ -11,7 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/download", async (req, res) => {
-  const v_id = req.query.url.split("v=")[1];
   const info = await ytdl.getInfo(req.query.url);
   const filteredFormats = info.formats.filter((format) => {
     return format.hasAudio && format.hasVideo && format.container === "mp4";
